@@ -4,15 +4,17 @@
   "description": "SSR+SPA framework based on React17 built using Webpack5",
   "main": "index.js",
   "scripts": {
+    "dev": "npm run client:dev",
     "build": "npm-run-all --parallel client:build server:build",
     "start": "npm run server:start",
+    "deploy": "npm run server:deploy",
     "client:dev": "scripty",
     "client:build": "scripty",
     "client:start": "scripty",
     "server:dev": "scripty",
     "server:build": "scripty",
     "server:start": "scripty",
-    "server:publish": "scripty",
+    "server:deploy": "scripty",
     "server:stop": "scripty",
     "formate:css": "scripty"
   },
