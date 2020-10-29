@@ -1,0 +1,1 @@
+cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only --project tsconfig.json -r tsconfig-paths/register src/server/app.ts

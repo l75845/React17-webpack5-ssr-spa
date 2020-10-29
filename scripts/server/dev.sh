@@ -1,0 +1,1 @@
+webpack --mode development --config config/webpack.server.js

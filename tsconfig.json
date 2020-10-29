@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "baseUrl": "./src",
+        "target": "es5",
+        "lib": [
+            "es6",
+            "dom",
+            "ESNext"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "typeRoots": ["typings", "./node_modules/@types","./server/typings"],
+        "paths":{
+            "@components/*":["web/components/*"],
+            "@pages/*": ["web/pages/*"],
+            "@assets/*": ["web/assets/*"],
+
+            "@interfaces/*": ["server/shared/*"],
+            "@config/*": ["server/config/*"],
+            "@middlewares/*": ["server/middlewares/*"],
+        }
+    },
+    "include": [
+        "src",
+        "tests"
+    ],
+    "exclude": [
+        "node_modules",
+        "webpack.config.js",
+        "gulpfile.js"
+    ]
+}

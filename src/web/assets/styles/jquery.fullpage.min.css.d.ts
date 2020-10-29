@@ -1,0 +1,31 @@
+declare const styles: {
+  readonly "fp-enabled": string;
+  readonly "superContainer": string;
+  readonly "fp-section": string;
+  readonly "fp-slide": string;
+  readonly "fp-slidesContainer": string;
+  readonly "fp-slides": string;
+  readonly "fp-table": string;
+  readonly "fp-tableCell": string;
+  readonly "fp-controlArrow": string;
+  readonly "fp-prev": string;
+  readonly "fp-next": string;
+  readonly "fp-scrollable": string;
+  readonly "fp-scroller": string;
+  readonly "iScrollIndicator": string;
+  readonly "fp-notransition": string;
+  readonly "fp-nav": string;
+  readonly "right": string;
+  readonly "left": string;
+  readonly "fp-slidesNav": string;
+  readonly "bottom": string;
+  readonly "top": string;
+  readonly "active": string;
+  readonly "fp-tooltip": string;
+  readonly "fp-show-active": string;
+  readonly "fp-auto-height": string;
+  readonly "fp-responsive": string;
+  readonly "fp-auto-height-responsive": string;
+};
+export = styles;
+
