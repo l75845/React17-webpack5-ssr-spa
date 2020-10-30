@@ -43,6 +43,7 @@
         "global-require": "off",
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": "off",
-        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }]
+        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+        "no-underscore-dangle":"off"
     }
 }

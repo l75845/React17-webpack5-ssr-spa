@@ -5,20 +5,22 @@ import {
   Route, Switch, RouteProps, Redirect,
 } from 'react-router-dom';
 import Content from '@pages/Content';
-import uuid = require('uuid');
 
 interface IRoutes extends RouteProps {
   routes?: Array<IRoutes>;
+  title?:string;
 }
 export const firstRoutes: IRoutes[] = [
   {
     path: '/login',
     exact: true,
+    title: 'login',
     component: Login,
   },
   {
     path: '/content',
     exact: true,
+    title: 'content',
     component: Content,
   },
 ];
@@ -26,12 +28,15 @@ export const firstRoutes: IRoutes[] = [
 const Routes = (routes: IRoutes[] = firstRoutes) => (
   <Switch>
     <Route path="/" exact render={() => <Redirect to="/login" />} />
-    {routes.map((route) => {
-      const { path, exact, component } = route;
+    {routes.map((route, index) => {
+      const {
+        path, exact, component,
+      } = route;
       const LazyCom = component;
+      const key = `${new Date().getTime()}${index}`;
       return (
         <Route
-          key={uuid.v4()}
+          key={key}
           path={path}
           exact={exact}
           // eslint-disable-next-line react/jsx-props-no-spreading

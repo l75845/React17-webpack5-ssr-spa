@@ -7,31 +7,27 @@ import {
   RouteProps,
   Redirect,
 } from 'react-router-dom';
-import uuid = require('uuid');
-// const { lazy, Suspense } = React;
-// import Content from '@pages/Content';
-// import TestSwiper from '@pages/TestSwiper';
+import { Helmet } from 'react-helmet';
 
 const Content = lazy(
   () => import(/* webpackChunkName:"content" */ '@pages/Content'),
 );
 
-// const TestSwiper = lazy(
-//   () => import(/* webpackChunkName:"testSwiper"*/ '@pages/TestSwiper')
-// );
-
 interface IRoutes extends RouteProps {
   routes?: Array<IRoutes>;
+  title?:string;
 }
 export const firstRoutes: IRoutes[] = [
   {
     path: '/login',
     exact: true,
+    title: 'login',
     component: Login,
   },
   {
     path: '/content',
     exact: true,
+    title: 'content',
     component: Content,
   },
 ];
@@ -40,16 +36,27 @@ const Routes = (routes: IRoutes[] = firstRoutes) => (
   <Suspense fallback={<div>loading</div>}>
     <Switch>
       <Route path="/" exact render={() => <Redirect to="/login" />} />
-      {routes.map((route) => {
-        const { path, exact, component } = route;
+      {routes.map((route, index) => {
+        const {
+          path, exact, component, title,
+        } = route;
         const LazyCom = component;
+        const key = `${new Date().getTime()}${index}`;
         return (
           <Route
-            key={uuid.v4()}
+            key={key}
             path={path}
             exact={exact}
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            render={(props) => <LazyCom {...props} />}
+            render={(props) => (
+              <>
+                <Helmet>
+                  <meta charSet="utf-8" />
+                  <title>{title}</title>
+                </Helmet>
+                {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+                <LazyCom {...props} />
+              </>
+            )}
           />
         );
       })}

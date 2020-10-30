@@ -18,6 +18,7 @@
             "@components/*":["web/components/*"],
             "@pages/*": ["web/pages/*"],
             "@assets/*": ["web/assets/*"],
+            "@recoil/*": ["web/pages/recoil/*"],
 
             "@interfaces/*": ["server/shared/*"],
             "@config/*": ["server/config/*"],
