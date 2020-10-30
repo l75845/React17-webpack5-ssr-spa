@@ -4,11 +4,13 @@ const notifier = require('node-notifier');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const argv = require('yargs-parser')(process.argv.slice(2));
+
+// eslint-disable-next-line no-underscore-dangle
 const _mode = argv.mode || 'development';
 const TerserPlugin = require('terser-webpack-plugin');
 
 const cssLoaderConfig = (isModule) => {
-  let config = [
+  const config = [
     // MiniCssExtractPlugin.loader,
     {
       loader: 'css-loader',
@@ -16,7 +18,7 @@ const cssLoaderConfig = (isModule) => {
     'postcss-loader',
   ];
   if (isModule) {
-    config[1]['options'] = {
+    config[1].options = {
       importLoaders: 1,
       modules: {
         mode: 'local',
@@ -25,7 +27,7 @@ const cssLoaderConfig = (isModule) => {
       },
     };
   } else {
-    config[1]['options'] = {
+    config[1].options = {
       importLoaders: 2,
     };
     config.push({ loader: 'sass-loader' });
@@ -36,7 +38,7 @@ const cssLoaderConfig = (isModule) => {
 /**
  * @type {import('webpack').Configuration}
  */
-let webpackBaseConfig = {
+const webpackBaseConfig = {
   mode: _mode,
   devtool: _mode === 'development' ? 'source-map' : false,
   entry: {
@@ -124,14 +126,14 @@ let webpackBaseConfig = {
           'Some additionnal notes to be displayed unpon successful compilation',
         ],
       },
-      onErrors: function (severity, errors) {
+      onErrors(severity, errors) {
         if (severity !== 'error') {
           return;
         }
         const error = errors[0];
         notifier.notify({
           title: 'Webpack error',
-          message: severity + ': ' + error.name,
+          message: `${severity}: ${error.name}`,
           subtitle: error.file || '',
         });
       },
@@ -159,13 +161,13 @@ let webpackBaseConfig = {
 };
 
 if (_mode === 'production') {
-  webpackBaseConfig['optimization'] = {
+  webpackBaseConfig.optimization = {
     minimize: true,
     minimizer: [
       new TerserPlugin({
         parallel: true, // 是否并行打包
       }),
-    ]
+    ],
   };
 }
 

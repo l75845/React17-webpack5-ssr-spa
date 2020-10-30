@@ -1,0 +1,45 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+    "settings": {
+        "import/resolver": {
+            "typescript": {}
+        }
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "airbnb"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "jsx": true,
+        "useJSXTextNode": true,
+        "ecmaVersion": 12,
+        "sourceType": "module",
+        "tsconfigRootDir": "./",
+        "project": "./tsconfig.json",
+        "extraFileExtensions": [
+            ".ts",
+            ".tsx"
+        ]
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "import"
+    ],
+    "rules": {
+        "no-console": "off",
+        "class-methods-use-this": "off",
+        "no-restricted-syntax": "off",
+        "no-new": "off",
+        "global-require": "off"
+    }
+}

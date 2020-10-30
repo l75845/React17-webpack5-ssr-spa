@@ -8,8 +8,8 @@ import ErrorHandler from '@middlewares/ErrorHandler';
 import { resolve } from 'path';
 
 configure({
-    appenders: { cheese: { type: 'file', filename: resolve(__dirname,'..','..','logs/logger.log') } },
-    categories: { default: { appenders: ['cheese'], level: 'error' } },
+  appenders: { cheese: { type: 'file', filename: resolve(__dirname, '..', '..', 'logs/logger.log') } },
+  categories: { default: { appenders: ['cheese'], level: 'error' } },
 });
 
 const logger = getLogger('cheese');
@@ -22,10 +22,10 @@ app.use(serve(staticDir));
 const container = createContainer();
 
 container.loadModules(['./services/*.ts'], {
-    formatName: 'camelCase',
-    resolverOptions: {
-        lifetime: Lifetime.SCOPED,
-    },
+  formatName: 'camelCase',
+  resolverOptions: {
+    lifetime: Lifetime.SCOPED,
+  },
 });
 
 app.use(scopePerRequest(container));
@@ -33,5 +33,5 @@ ErrorHandler.error(app, logger);
 app.use(loadControllers(`${__dirname}/controllers/*.tsx`));
 
 app.listen(port, () => {
-    console.log('🍺:',port);
+  console.log('🍺:', port);
 });

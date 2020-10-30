@@ -6,7 +6,7 @@ class APIController {
   @route('/')
   @GET()
   async actionIndex(ctx: Context): Promise<void> {
-    ctx.body = `${JSON.stringify({id:1,name:'xxx'})}`;
+    ctx.body = `${JSON.stringify({ id: 1, name: 'xxx' })}`;
   }
 }
 
