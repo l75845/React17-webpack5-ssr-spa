@@ -5,7 +5,7 @@ import { Context } from '@interfaces/IKoa';
 class APIController {
   @route('/')
   @GET()
-  async actionIndex(ctx: Context): Promise<void> {
+  actionIndex(ctx: Context) {
     ctx.body = `${JSON.stringify({ id: 1, name: 'xxx' })}`;
   }
 }

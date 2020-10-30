@@ -1,5 +1,4 @@
 declare const styles: {
-  readonly "components-notfound": string;
+  readonly 'components-notfound': string;
 };
 export = styles;
-

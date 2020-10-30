@@ -5,3 +5,4 @@ test
 build/
 webpack.config.js
 postcss.config.js
+src/web/assets

@@ -7,14 +7,13 @@ import {
   RouteProps,
   Redirect,
 } from 'react-router-dom';
+import uuid = require('uuid');
 // const { lazy, Suspense } = React;
 // import Content from '@pages/Content';
 // import TestSwiper from '@pages/TestSwiper';
 
-
-
 const Content = lazy(
-  () => import(/* webpackChunkName:"content"*/ '@pages/Content')
+  () => import(/* webpackChunkName:"content" */ '@pages/Content'),
 );
 
 // const TestSwiper = lazy(
@@ -34,28 +33,29 @@ export const firstRoutes: IRoutes[] = [
     path: '/content',
     exact: true,
     component: Content,
-  }
+  },
 ];
 
 const Routes = (routes: IRoutes[] = firstRoutes) => (
   <Suspense fallback={<div>loading</div>}>
     <Switch>
-        <Route path="/" exact render={() => <Redirect to="/login" />} />
-        {routes.map((route, index) => {
-          const { path, exact, component } = route;
-          const LazyCom = component;
-          return (
-            <Route
-              key={index}
-              path={path}
-              exact={exact}
-              render={(props) => <LazyCom {...props} />}
-            />
-          );
-        })}
-        <Route component={NotFound} />
+      <Route path="/" exact render={() => <Redirect to="/login" />} />
+      {routes.map((route) => {
+        const { path, exact, component } = route;
+        const LazyCom = component;
+        return (
+          <Route
+            key={uuid.v4()}
+            path={path}
+            exact={exact}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            render={(props) => <LazyCom {...props} />}
+          />
+        );
+      })}
+      <Route component={NotFound} />
     </Switch>
- </Suspense>
+  </Suspense>
 );
 
 export default Routes;
