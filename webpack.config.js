@@ -86,6 +86,7 @@ const webpackBaseConfig = {
       '@assets': resolve('src/web/assets'),
       '@pages': resolve('src/web/pages'),
       '@components': resolve('src/web/components'),
+      '@recoil': resolve('src/web/recoil'),
     },
     modules: ['node_modules', resolve('src')],
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
@@ -132,8 +133,6 @@ module.exports = merge(webpackBaseConfig, _mergeConfig);
 
 // "webpack": "^4.44.2",
 // "webpack-cli": "^3.3.12",
-
-
 
 // "_moduleAliases": {
 //   "@root": "./dist",

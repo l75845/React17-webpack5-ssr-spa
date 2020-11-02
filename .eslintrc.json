@@ -44,6 +44,16 @@
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": "off",
         "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-        "no-underscore-dangle":"off"
+        "no-underscore-dangle":"off",
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+              "js": "never",
+              "jsx": "never",
+              "ts": "never",
+              "tsx": "never"
+            }
+         ]
     }
 }

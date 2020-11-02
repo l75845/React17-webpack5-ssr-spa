@@ -4,36 +4,11 @@ const notifier = require('node-notifier');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const argv = require('yargs-parser')(process.argv.slice(2));
+const nodeExternals = require('webpack-node-externals');
 
 // eslint-disable-next-line no-underscore-dangle
 const _mode = argv.mode || 'development';
 const TerserPlugin = require('terser-webpack-plugin');
-
-const cssLoaderConfig = (isModule) => {
-  const config = [
-    // MiniCssExtractPlugin.loader,
-    {
-      loader: 'css-loader',
-    },
-    'postcss-loader',
-  ];
-  if (isModule) {
-    config[1].options = {
-      importLoaders: 1,
-      modules: {
-        mode: 'local',
-        localIdentName:
-          _mode === 'development' ? '[path][name]__[local]' : '[hash:base64]',
-      },
-    };
-  } else {
-    config[1].options = {
-      importLoaders: 2,
-    };
-    config.push({ loader: 'sass-loader' });
-  }
-  return config;
-};
 
 /**
  * @type {import('webpack').Configuration}
@@ -43,15 +18,14 @@ const webpackBaseConfig = {
   devtool: _mode === 'development' ? 'source-map' : false,
   entry: {
     app: resolve('src/web/pages/App/index-server.tsx'),
-    // app:resolve('src/web/pages/App/index.tsx')
   },
   output: {
     path: join(__dirname, '../dist'),
     filename: 'server-entry.js',
     libraryTarget: 'commonjs2',
   },
-  // target: 'node',
-  // externals: [nodeExternals()],
+  target: 'node',
+  externals: [nodeExternals()],
   module: {
     rules: [
       {
@@ -90,12 +64,28 @@ const webpackBaseConfig = {
       },
       {
         test: /\.module\.css$/,
-        use: cssLoaderConfig(true),
+        use: [
+          'isomorphic-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: {
+                mode: 'local',
+                localIdentName:
+                  _mode === 'development'
+                    ? '[path][name]__[local]'
+                    : '[hash:base64]',
+              },
+            },
+          },
+          'postcss-loader',
+        ],
         include: /\.module\.css$/,
       },
       {
         test: /\.(sa|sc|c)ss$/,
-        use: cssLoaderConfig(false),
+        loader: 'ignore-loader',
         exclude: /\.module\.css$/,
       },
       {
@@ -112,6 +102,7 @@ const webpackBaseConfig = {
       '@assets': resolve('src/web/assets'),
       '@pages': resolve('src/web/pages'),
       '@components': resolve('src/web/components'),
+      '@recoil': resolve('src/web/recoil'),
     },
     modules: ['node_modules', resolve('src')],
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
@@ -153,10 +144,6 @@ const webpackBaseConfig = {
       },
       canPrint: true,
     }),
-    // new MiniCssExtractPlugin({
-    //   filename: 'assets/styles/[name].[contenthash:5].css',
-    //   chunkFilename: 'assets/styles/[id].[contenthash:5].css',
-    // }),
   ],
 };
 
