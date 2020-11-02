@@ -7,7 +7,7 @@ import { renderToString } from 'react-dom/server';
 import fs from 'fs';
 import { resolve } from 'path';
 
-const ssrDictionaries = {
+const ssrDictionaries:{[key:string]:{title:string}} = {
   '/': {
     title: 'login',
   },
@@ -27,12 +27,12 @@ class IndexController {
     const indexFile = resolve(__dirname, '../../../', 'dist/index.html');
     const content = fs.readFileSync(indexFile, 'utf8');
     const _controller: string = ctx.params.controller || '/';
-    const { title } = ssrDictionaries[_controller] || 'Page not found';
+    const title = ssrDictionaries[_controller]?.title || 'Page not found';
     const pageContent = renderToString(serverEntry(ctx.req.url));
     ctx.body = content.replace(
       '<div id="main"></div>',
       `<div id="main">${pageContent}</div>`,
-    ).replace('$$title$$', title);
+    ).replace(/<title>.*?<\/title>/g, `<title>${title}</title>`);
   }
 }
 
