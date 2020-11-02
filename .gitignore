@@ -103,6 +103,6 @@ dist
 
 .ncurc.json
 
-.yarn.lock
+yarn.lock
 
 package-lock.json
