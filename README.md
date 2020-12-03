@@ -1,20 +1,18 @@
 # React17-webpack5-ssr-spa
-SSR+SPA framework based on React17 built using Webpack5
+使用**Webpack5**构建的支持首屏**SSR**切换**SPA**的基于**react17**的项目，后端采用**Koa**
 
-## How to run SSR 
+## 如何使用
 
+ ```shell
+ npm run build //打包生产环境前后端代码
+ npm run start //启动Koa服务
  ```
- npm run build 
- npm run start
- ```
 
-## Available Scripts
+## 其他可用的指令
 
-In the project directory, you can run:
-
- ```
- npm run dev      //Runs the app in the development mode.
- npm run build    //Builds the app for production to the dist folder.
- npm run server   //Start service
- npm run deploy   //Deploy to the current server
+ ```shell
+ npm run dev      //执行打包本地环境并启动 webpack serve
+ npm run server   //启动Koa服务
+ npm run deploy   //利用pm2发布服务
+ npm run server:stop //停止pm2服务
  ```

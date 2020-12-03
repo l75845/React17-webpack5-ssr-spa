@@ -1,14 +1,14 @@
 import NotFound from '@components/NotFund';
 import Login from '@pages/Login';
 import React from 'react';
-import {
-  Route, Switch, RouteProps, Redirect,
-} from 'react-router-dom';
+import { Route, Switch, RouteProps, Redirect } from 'react-router-dom';
 import Content from '@pages/Content';
+import contentApi from 'web/services/contentApi';
 
 interface IRoutes extends RouteProps {
   routes?: Array<IRoutes>;
-  title?:string;
+  title?: string;
+  loadData?: Function;
 }
 export const firstRoutes: IRoutes[] = [
   {
@@ -22,6 +22,7 @@ export const firstRoutes: IRoutes[] = [
     exact: true,
     title: 'content',
     component: Content,
+    loadData: () => contentApi(),
   },
 ];
 
@@ -29,11 +30,9 @@ const Routes = (routes: IRoutes[] = firstRoutes) => (
   <Switch>
     <Route path="/" exact render={() => <Redirect to="/login" />} />
     {routes.map((route, index) => {
-      const {
-        path, exact, component,
-      } = route;
+      const { path, exact, component } = route;
       const LazyCom = component;
-      const key = `${new Date().getTime()}${index}`;
+      const key = index;
       return (
         <Route
           key={key}

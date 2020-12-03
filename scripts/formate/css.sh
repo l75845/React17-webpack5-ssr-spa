@@ -1,1 +1,1 @@
-tcm src/web
+tcm -p src/**/*.module.css

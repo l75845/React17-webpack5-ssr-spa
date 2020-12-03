@@ -5,17 +5,44 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const argv = require('yargs-parser')(process.argv.slice(2));
 const nodeExternals = require('webpack-node-externals');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 // eslint-disable-next-line no-underscore-dangle
 const _mode = argv.mode || 'development';
 const TerserPlugin = require('terser-webpack-plugin');
+
+const cssLoaderConfig = (isModule) => {
+  let config = [
+    MiniCssExtractPlugin.loader,
+    {
+      loader: 'css-loader',
+    },
+    'postcss-loader',
+  ];
+  if (isModule) {
+    config[1]['options'] = {
+      importLoaders: 1,
+      modules: {
+        mode: 'local',
+        localIdentName:
+        _mode === 'development' ? '[path][name]__[local]' : '[hash:base64]',
+      },
+    };
+  } else {
+    config[1]['options'] = {
+      importLoaders: 2,
+    };
+    config.push({ loader: 'sass-loader' });
+  }
+  return config;
+};
 
 /**
  * @type {import('webpack').Configuration}
  */
 const webpackBaseConfig = {
   mode: _mode,
-  devtool: _mode === 'development' ? 'source-map' : false,
+  devtool: _mode === 'development' ? 'eval-cheap-module-source-map' : false,
   entry: {
     app: resolve('src/web/pages/App/index-server.tsx'),
   },
@@ -24,68 +51,29 @@ const webpackBaseConfig = {
     filename: 'server-entry.js',
     libraryTarget: 'commonjs2',
   },
+  watch: _mode === 'development',
   target: 'node',
-  externals: [nodeExternals()],
+  externals: [
+    nodeExternals({
+      allowlist: [/\.(sa|sc|c)ss$/],
+    }),
+  ],
   module: {
     rules: [
       {
         test: /\.(js|ts|jsx|tsx)$/,
         include: resolve('src'),
         exclude: [/node_modules/],
-        use: [
-          'cache-loader',
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                [
-                  '@babel/preset-env',
-                  {
-                    targets: {
-                      esmodules: true,
-                    },
-                  },
-                ],
-                '@babel/preset-react',
-                '@babel/preset-typescript',
-              ],
-              plugins: [
-                [
-                  '@babel/plugin-proposal-decorators',
-                  {
-                    legacy: true,
-                  },
-                ],
-                '@babel/plugin-transform-modules-commonjs',
-              ],
-            },
-          },
-        ],
+        use: ['babel-loader'],
       },
       {
         test: /\.module\.css$/,
-        use: [
-          'isomorphic-style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              modules: {
-                mode: 'local',
-                localIdentName:
-                  _mode === 'development'
-                    ? '[path][name]__[local]'
-                    : '[hash:base64]',
-              },
-            },
-          },
-          'postcss-loader',
-        ],
+        use: cssLoaderConfig(true),
         include: /\.module\.css$/,
       },
       {
         test: /\.(sa|sc|c)ss$/,
-        loader: 'ignore-loader',
+        use: ['ignore-loader'],
         exclude: /\.module\.css$/,
       },
       {
@@ -103,6 +91,8 @@ const webpackBaseConfig = {
       '@pages': resolve('src/web/pages'),
       '@components': resolve('src/web/components'),
       '@recoil': resolve('src/web/recoil'),
+      '@services': resolve('src/web/services'),
+      '@environment':resolve(`src/web/environment/environment.${ _mode === 'development'?'env':'prod'}.ts`),
     },
     modules: ['node_modules', resolve('src')],
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
@@ -110,6 +100,7 @@ const webpackBaseConfig = {
 
   plugins: [
     new ProgressBarPlugin(),
+    new MiniCssExtractPlugin(),
     new FriendlyErrorsWebpackPlugin({
       compilationSuccessInfo: {
         messages: ['You application is running '],
@@ -153,6 +144,12 @@ if (_mode === 'production') {
     minimizer: [
       new TerserPlugin({
         parallel: true, // 是否并行打包
+        terserOptions: {
+          format: {
+            comments: false,
+          },
+        },
+        extractComments: false,
       }),
     ],
   };

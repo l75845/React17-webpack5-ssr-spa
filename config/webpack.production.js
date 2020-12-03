@@ -23,7 +23,6 @@ module.exports = {
       chunks: 'async',
       minChunks: 1,
       maxAsyncRequests: 5,
-      // maxSize: 300000,
       maxInitialRequests: 3,
       name: false,
       cacheGroups: {
@@ -31,7 +30,6 @@ module.exports = {
           chunks: 'initial',
           minChunks: 2,
           maxInitialRequests: 5,
-          // minSize: 0,
           name: 'commons',
         },
       },
@@ -66,6 +64,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'styles/[name].[contenthash:5].css',
       chunkFilename: 'styles/[id].[contenthash:5].css',
-    }),
+    })
   ],
 };

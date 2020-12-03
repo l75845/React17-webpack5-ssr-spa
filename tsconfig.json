@@ -19,6 +19,7 @@
             "@pages/*": ["web/pages/*"],
             "@assets/*": ["web/assets/*"],
             "@recoil/*": ["web/recoil/*"],
+            "@environment":["web/environment/environment.env.ts"],
 
             "@interfaces/*": ["server/shared/*"],
             "@config/*": ["server/config/*"],

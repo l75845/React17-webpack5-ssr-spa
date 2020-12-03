@@ -1,12 +1,20 @@
-import { route, GET } from 'awilix-koa';
+import { route, POST } from 'awilix-koa';
 import { Context } from '@interfaces/IKoa';
 
 @route('/api')
 class APIController {
-  @route('/')
-  @GET()
+  @route('/getContentData')
+  @POST()
   actionIndex(ctx: Context) {
-    ctx.body = `${JSON.stringify({ id: 1, name: 'xxx' })}`;
+    const results = {
+      code: 0,
+      message: '',
+      data: {
+        id: 1,
+        name: 'xxx',
+      },
+    };
+    ctx.body = JSON.stringify(results);
   }
 }
 

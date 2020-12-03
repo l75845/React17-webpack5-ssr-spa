@@ -8,7 +8,7 @@ console.log('🐻 webpack开发环境');
  */
 module.exports = {
   mode: 'development',
-  devtool: 'source-map',
+  devtool: 'eval-cheap-module-source-map',
   devServer: {
     contentBase: resolve(__dirname, "..","dist"),
     compress: true,

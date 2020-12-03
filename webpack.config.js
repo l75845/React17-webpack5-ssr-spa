@@ -48,7 +48,7 @@ const webpackBaseConfig = {
   output: {
     path: join(__dirname, './dist/assets'),
     publicPath: '/',
-    // filename: 'scripts/[name].bundule.js',
+    filename: 'scripts/[name].bundule.js',
     assetModuleFilename: 'scripts/[name].[contenthash:5].bundule.[ext]',
   },
   module: {
@@ -71,15 +71,13 @@ const webpackBaseConfig = {
       },
       {
         test: /\.(png|jpg|jpeg|gif|eot|woff|woff2|ttf|svg|otf)$/,
-        loader: 'url-loader',
+        // loader: 'url-loader',
+        type: 'asset',
       },
     ],
   },
-  externals: {
-    jquery: 'jQuery',
-    // react:'React',
-    // 'react-dom': 'ReactDOM',
-    // 'react-router-dom': 'ReactRouterDOM'
+  experiments: {
+    asset: true,
   },
   resolve: {
     alias: {
@@ -87,20 +85,21 @@ const webpackBaseConfig = {
       '@pages': resolve('src/web/pages'),
       '@components': resolve('src/web/components'),
       '@recoil': resolve('src/web/recoil'),
+      '@environment':resolve(`src/web/environment/environment.${ _mode === 'development'?'env':'prod'}.ts`)
     },
     modules: ['node_modules', resolve('src')],
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
   },
   plugins: [
     new ProgressBarPlugin(),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: resolve(__dirname, 'src/web/assets/scripts/*'),
-          to: 'scripts/[name].[ext]',
-        },
-      ],
-    }),
+    // new CopyPlugin({
+    //   patterns: [
+    //     {
+    //       from: resolve(__dirname, 'src/web/assets/scripts/*'),
+    //       to: 'scripts/[name].[ext]',
+    //     },
+    //   ],
+    // }),
     new HtmlWebpackPlugin({
       title: 'hello world',
       favicon: resolve(__dirname, 'src/web/assets/icon/webpackicon.ico'),
@@ -128,15 +127,4 @@ const webpackBaseConfig = {
     }),
   ],
 };
-// module.exports = smp.wrap(merge(webpackBaseConfig, _mergeConfig));
 module.exports = merge(webpackBaseConfig, _mergeConfig);
-
-// "webpack": "^4.44.2",
-// "webpack-cli": "^3.3.12",
-
-// "_moduleAliases": {
-//   "@root": "./dist",
-//   "@interfaces": "./dist/shared",
-//   "@config": "./dist/config",
-//   "@middlewares": "./dist/middlewares"
-// }
