@@ -1,5 +1,5 @@
 # React17-webpack5-ssr-spa
-使用**Webpack5**构建的支持首屏**SSR**切换**SPA**的基于**react17**的项目，后端采用**Koa**
+使用**Webpack5**构建的支持首屏**SSR**切换**SPA**的基于**react17**的项目，使用recoil进行状态管理，后端采用**Koa**。
 
 ## 如何使用
 
