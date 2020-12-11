@@ -54,6 +54,7 @@
               "ts": "never",
               "tsx": "never"
             }
-         ]
+         ],
+         "object-curly-newline":"off"
     }
 }

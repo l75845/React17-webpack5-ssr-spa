@@ -6,6 +6,7 @@ import Content from '@pages/Content';
 import contentApi from 'web/services/contentApi';
 
 interface IRoutes extends RouteProps {
+  key: string;
   routes?: Array<IRoutes>;
   title?: string;
   loadData?: Function;
@@ -16,12 +17,14 @@ export const firstRoutes: IRoutes[] = [
     exact: true,
     title: 'login',
     component: Login,
+    key: 'login',
   },
   {
     path: '/content',
     exact: true,
     title: 'content',
     component: Content,
+    key: 'content',
     loadData: () => contentApi(),
   },
 ];
@@ -29,10 +32,9 @@ export const firstRoutes: IRoutes[] = [
 const Routes = (routes: IRoutes[] = firstRoutes) => (
   <Switch>
     <Route path="/" exact render={() => <Redirect to="/login" />} />
-    {routes.map((route, index) => {
-      const { path, exact, component } = route;
+    {routes.map((route) => {
+      const { path, exact, component, key } = route;
       const LazyCom = component;
-      const key = index;
       return (
         <Route
           key={key}

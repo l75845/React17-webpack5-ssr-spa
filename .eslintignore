@@ -6,3 +6,4 @@ build/
 webpack.config.js
 postcss.config.js
 src/web/assets
+*.d.ts
